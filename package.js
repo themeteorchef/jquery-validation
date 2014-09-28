@@ -1,16 +1,22 @@
 Package.describe({
-  summary: " \* Fill me in! *\ ",
+  summary: "jQuery Validation by jzaefferer, repackaged for Meteor.",
   version: "1.0.0",
-  git: " \* Fill me in! *\ "
+  git: "https://github.com/themeteorchef/jquery-validation"
 });
 
 Package.onUse(function(api) {
   api.versionsFrom('METEOR@0.9.3');
-  api.addFiles('themeteorchef:jquery-validation.js');
+  api.use('jquery');
+  api.addFiles([
+    'lib/jquery-validation/src/core.js',
+    'lib/jquery-validation/src/delegate.js',
+    'lib/jquery-validation/src/ajax.js'
+  ],'client');
 });
 
 Package.onTest(function(api) {
-  api.use('tinytest');
+  api.use(['tinytest', 'test-helpers'], ['client', 'server']);
+  api.use('jquery', 'client');
   api.use('themeteorchef:jquery-validation');
   api.addFiles('themeteorchef:jquery-validation-tests.js');
 });
