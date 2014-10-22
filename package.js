@@ -1,6 +1,6 @@
 Package.describe({
   summary: "jQuery Validation by jzaefferer, repackaged for Meteor.",
-  version: "1.0.0",
+  version: "1.13.1",
   git: "https://github.com/themeteorchef/jquery-validation"
 });
 
