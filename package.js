@@ -11,7 +11,8 @@ Package.onUse(function(api) {
   api.addFiles([
     'lib/jquery-validation/src/core.js',
     'lib/jquery-validation/src/delegate.js',
-    'lib/jquery-validation/src/ajax.js'
+    'lib/jquery-validation/src/ajax.js',
+    'lib/jquery-validation/src/additional/pattern.js'
   ],'client');
 });
 
