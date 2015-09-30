@@ -18,96 +18,96 @@ Add the "required" class to your markup:
 
 ```
 <template name="exampleForm">
-
-  <form id="validation-example">
-
+  <form id="example-form">
     <label for="name">Name</label> <br>
     <input type="text" name="name" class="required"> <br>
-
     <label for="emailAddress">Email Address</label> <br>
     <input type="email" name="emailAddress" class="required email"> <br>
-
     <input type="submit" value="Validate Form" />
-
   </form>
-
 </template>
 ```
 
 Back in our Meteor code, we enable validation by using the `.validate()` method provided by jQuery Validation in our template's rendered function:
 
 ```
-Template.exampleForm.rendered = ->
-  $("#validation-example").validate()
+Template.exampleForm.onRendered( function() {
+  $( "#example-form" ).validate();
+});
 ```
 
 ### Advanced Implementation
 
-If need be, you can make use of all of [jQuery Validation's methods](http://jqueryvalidation.org/validate). To use them in your Meteor app, see the example below for adding validation to the login form in [Base](http://github.com/themeteorchef/base).
+If need be, you can make use of all of [jQuery Validation's methods](http://jqueryvalidation.org/validate). To use them in your Meteor app, see the example below for adding validation to the login form in [Base](http://themeteorchef.com/base).
 
-First, our markup. Note: instead of adding classes, we're only using bare markup here.
+First, our markup. Note: instead of adding classes, we're only using bare markup here. jQuery Validation relies on the `name` attribute of our form fields to define rules.
 
 ```
 <template name="login">
   <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-4">
-      <form id="application-login" class="login">
+      <h4 class="page-header">Login</h4>
+      <form id="login" class="login">
         <div class="form-group">
           <label for="emailAddress">Email Address</label>
           <input type="email" name="emailAddress" class="form-control" placeholder="Email Address">
-        </div> <!-- end .form-group -->
+        </div>
         <div class="form-group">
           <label for="password"><span class="pull-left">Password</span> <a class="pull-right" href="{{pathFor 'recover-password'}}">Forgot Password?</a></label>
           <input type="password" name="password" class="form-control" placeholder="Password">
-        </div> <!-- end .form-group -->
+        </div>
         <div class="form-group">
           <input type="submit" class="btn btn-success" value="Login">
-        </div> <!-- end .form-group -->
+        </div>
       </form>
       <p>Don't have an account? <a href="{{pathFor 'signup'}}">Sign Up</a>.</p>
-    </div> <!-- end .col-xs-12 -->
-  </div> <!-- end .row -->
+    </div>
+  </div>
 </template>
 ```
 
 Next, in our controller file (where we store our Meteor code), we want to prevent a submission on the `<form>` element:
 
 ```
-Template.login.events(
-  'submit form': (e) ->
-    # Prevent form from submitting.
-    e.preventDefault()
-)
+Template.login.events({
+  'submit form': ( event ) => event.preventDefault()
+});
 ```
 
-Finally, we call the `.validate()` method in our form when our template is rendered:
+Finally, we call the `.validate()` method in our form when our template is rendered (note: the way this is done in Base is a little bit different and has been simplified here):
 
 ```
-Template.login.rendered = ->
-  $('#application-login').validate(
-    rules:
-      emailAddress:
+Template.login.onRendered( function() {
+  $( '#login' ).validate({
+    rules {
+      emailAddress: {
         required: true
         email: true
-      password:
+      },
+      password {
         required: true
-    messages:
-      emailAddress:
+      }
+    },
+    messages: {
+      emailAddress: {
         required: "Please enter your email address to login."
         email: "Please enter a valid email address."
-      password:
+      },
+      password {
         required: "Please enter your password to login."
-    submitHandler: ->
-      # Grab the user's details.
-      user =
-          email: $('[name="emailAddress"]').val()
-          password: $('[name="password"]').val()
+      }
+    },
+    submitHandler() {
+      let email    = $( '[name="emailAddress"]' ).val(),
+          password = $('[name="password"]').val();
 
-      # Log the user in.
-      Meteor.loginWithPassword(user.email, user.password, (error)->
-          alert error.reason if error
-      )
-  )
+      Meteor.loginWithPassword( email, password, ( error ) => {
+        if ( error ) {
+          alert( error.reason );
+        }
+      });
+    }
+  });
 ```
 
 In the example above, you can see the required and email methods being used.
