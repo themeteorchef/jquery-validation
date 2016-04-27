@@ -90,7 +90,7 @@ Template.login.onRendered( function() {
     },
     messages: {
       emailAddress: {
-        required: "Please enter your email address to login."
+        required: "Please enter your email address to login.",
         email: "Please enter a valid email address."
       },
       password {
