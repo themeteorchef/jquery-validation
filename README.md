@@ -81,7 +81,7 @@ Template.login.onRendered( function() {
   $( '#login' ).validate({
     rules {
       emailAddress: {
-        required: true
+        required: true,
         email: true
       },
       password {
