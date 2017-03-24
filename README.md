@@ -1,3 +1,11 @@
++++++ DEPRECATION NOTICE +++++
+
+This package is no longer being maintained. **It's recommended that you rely on the official jquery-validation package via NPM**.
+
+**To get it**: npm install --save jquery-validation
+
+---
+
 ## jQuery Validation for Meteor
 
 Meteor implementation of [Validation](https://github.com/jzaefferer/jquery-validation) for jQuery.
